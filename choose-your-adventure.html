@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Choose your adventure</title>
+        <style>
+            body {
+                max-width: 40rem;
+                margin: 0 auto;
+            }
+
+            .historia-txt {
+                background-color: coral;
+                padding: 2em;
+                margin-bottom: 2em;
+                font-size: x-large;
+            }
+
+            #option1 #option2 #option2 {
+                display: none;
+            }
+            
+
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Welcome to your own exciting adventure!<br>Have fun!</h1>
+        </header>
+
+        <main>
+            <header>
+            </header>
+            <section class="historia-txt">Text</section>
+            <footer>
+                <button id = "option1" onclick="selectedOption('1')">Option 1</button>
+                <button id = "option2" onclick="selectedOption('2')">Option 2</button>
+                <button id = "option3" onclick="selectedOption('3')">Option 3</button>
+                <button onclick="resetData()">Start over</button>
+            </footer>
+            <p></p>
+            <details>
+                <summary>Instructions</summary>
+                    <p>Answer the questions to see where you end up.</p>
+            </details>
+        </main>
+
+        <script>
+                const historia=[
+                    {clau: 'theStart', text: 'Does the thing work?', 1: 'dontTouch', 2: 'touched?', option1: 'Yes', option2: 'No'}, 
+                    {clau: 'dontTouch', text: 'Don\'t mess with it', 1: 'theEnd', option1: 'Ok'},
+                    {clau: 'touched?', text: 'Did you touch it?', 1: 'silly', 2: 'yourProblem', option1: 'Yes', option2: 'No'},
+                    {clau: 'theEnd', text: 'Happy Ending.'},
+                    {clau: 'silly', text: 'You silly.\nDo you need further advice?',  1: 'whoKnows?', option1: 'Yes, please!'},
+                    {clau: 'yourProblem', text: 'Is it your problem?', 1: 'poorThing', 2: 'theEnd', option1: 'Yes', option2: 'No'},
+                    {clau: 'whoKnows?', text: 'Does anyone know?',  1: 'poorThing', 2: 'hide', option1: 'Yes', option2: 'No'},
+                    {clau: 'poorThing', text: 'You poor thing.',  1: 'blameOther', option1: 'Help me please!'},
+                    {clau: 'hide', text: 'Hide it.',  1: 'theEnd', option1: 'Ok'},
+                    {clau: 'blameOther', text: 'Can you blame someone else?',  1: 'justBlame', 2: 'poorThing', option1: 'Yes', option2: 'No'},
+                    {clau: 'justBlame', text: 'Just blame them, then',  1: 'theEnd', option1: 'Ok'},
+                ];
+
+                const a = ['option1', 'option2', 'option3'];
+
+                let textWebText = document.querySelector('.historia-txt');
+
+                let currentKey = 'theStart';
+                let currentObject = findObjectInStory(currentKey);
+
+                updateWebTxt();
+
+                function findObjectInStory(theKey){
+                    return(historia.find((v) => v.clau === theKey));
+                }
+                
+                function updateWebTxt(){
+                    textWebText.textContent = currentObject.text;
+                    showButtons();
+                }
+
+                function showButtons(){
+                    for (i in a){
+                        console.log(currentObject[a[i]])
+                        if (currentObject[a[i]] !== undefined) {
+                            document.getElementById(a[i]).style.display = 'inline';
+                            document.getElementById(a[i]).textContent = currentObject[a[i]];
+                        }else {
+                            document.getElementById(a[i]).style.display = 'none';
+                        }
+                    }
+                }
+
+                function selectedOption(theOption) {
+                    currentKey = currentObject[theOption];
+                    currentObject = findObjectInStory(currentKey);
+                    updateWebTxt(currentObject);
+                    
+                }
+
+                function resetData() {
+                    currentKey = 'theStart';
+                    currentObject = findObjectInStory(currentKey);
+                    updateWebTxt(currentObject);                
+                }
+        </script>
+    </body>
+</html>
